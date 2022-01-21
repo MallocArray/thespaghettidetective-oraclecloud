@@ -10,3 +10,4 @@ connect.tf
 
 .terraform/
 terraform.exe
+.terraform.tfstate.lock.info
