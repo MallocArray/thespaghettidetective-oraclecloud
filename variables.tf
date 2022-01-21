@@ -3,28 +3,32 @@ variable "availability_domain" {
   description = "If errors about 'shape not found', try 2 or 3.  See README for more information"
 }
 
-# variable "ssh_public_key" {
-#   default = ""
-# }
+variable "ssh_public_key" {
+  default = ""
+}
 
-# variable "source_ip" {
-#   default = "0.0.0.0/0"
-#   description = "IP address to allow access from. Recommended to only allow your personal public IP followed by /32"
-# }
+variable "source_ip" {
+  default = "0.0.0.0/0"
+  description = "IP address to allow access from. Recommended to only allow your personal public IP followed by /32"
+}
 
-# variable "dns_name" {
-#   default = ""
-#   description = "DNS name for the public IP assigned."
-# }
+variable "dns_name" {
+  default = ""
+  description = "DNS name for the public IP assigned."
+}
 
-# variable "timezone" {
-#   default = ""
-#   description="Example America/Chicago"
-# }
+variable "timezone" {
+  default = ""
+  description="Example America/Chicago"
+}
 
-# variable "project_name" {
-#   default = "tsd"
-# }
+variable "project_name" {
+  default = "tsd"
+}
+
+variable "region" {}
+
+variable "compartment_ocid" {}
 
 variable "bucket_name" {
   default = "tsd-backup"

@@ -7,5 +7,5 @@ output "tds_public_url" {
 }
 
 output "comments" {
-  value = "The controller should become available in aproximately 5-10 minutes, once updates and installation have completed"
+  value = "The detective should become available in aproximately 5-10 minutes, once updates and installation have completed"
 }
