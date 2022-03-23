@@ -8,7 +8,7 @@ sudo apt install docker-compose jq zip -y
 
 # Clone The Spaghetti Detective repo
 cd /
-git clone https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git
+git clone -b release https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git
 
 
 
@@ -17,6 +17,7 @@ bucket=$(curl -L http://169.254.169.254/opc/v1/instance/metadata | jq -c ".bucke
 if [ ${bucket} ]; then
 # Download existing database backup
 sudo wget ${bucket}db.sqlite3 -O /TheSpaghettiDetective/web/db.sqlite3
+sudo wget ${bucket}docker-compose.yml -O /TheSpaghettiDetective/docker-compose.yml
 
 
 # Setup daily backups
@@ -27,34 +28,12 @@ sudo wget ${bucket}db.sqlite3 -O /TheSpaghettiDetective/web/db.sqlite3
 	# echo sudo zip -r /tmp/TheSpaghettiDetectiveBackup.zip /TheSpaghettiDetective/web | sudo tee -a /TheSpaghettiDetective/tsd-backup.sh
 	# echo sudo tar -czvf /tmp/TheSpaghettiDetectiveBackup.tar /TheSpaghettiDetective/web/db.sqlite3 | sudo tee -a /TheSpaghettiDetective/tsd-backup.sh
 	echo curl -T /TheSpaghettiDetective/web/db.sqlite3 \$bucket | sudo tee -a /TheSpaghettiDetective/tsd-backup.sh
+	echo curl -T /TheSpaghettiDetective/docker-compose.yml \$bucket | sudo tee -a /TheSpaghettiDetective/tsd-backup.sh
 	sudo chmod u+x /TheSpaghettiDetective/tsd-backup.sh
 
-
-
-	cat > /etc/systemd/system/tsd-backup.service <<_EOF
-[Unit]
-Description=Daily backup of TSD/web to OCI Storage service
-After=network-online.target
-Wants=network-online.target
-[Service]
-Type=oneshot
-ExecStart=/TheSpaghettiDetective/tsd-backup.sh
-_EOF
-
-	cat > /etc/systemd/system/tsd-backup.timer <<_EOF
-[Unit]
-Description=Daily backup of TSD/web to OCI Storage service
-[Timer]
-OnCalendar=1:00
-RandomizedDelaySec=30m
-[Install]
-WantedBy=timers.target
-_EOF
-	systemctl daemon-reload
-	systemctl start tsd-backup.timer
-	echo "Backups to OCI Storage set up"
-fi
-
+# Schedule weekly backups of database using cron on Sundays at 1:00 am
+# https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
+crontab -l | { cat; echo "* 1 * * 0 /TheSpaghettiDetective/tsd-backup.sh"; } | crontab -
 
 
 # Build and start TheSpaghettiDetective
