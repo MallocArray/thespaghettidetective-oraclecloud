@@ -3,7 +3,7 @@ data "template_file" "tsd-init" {
   # These vars don't do anything, but they have to be defined to not cause errors
   vars = {
     bucket = "https://objectstorage.${var.region}.oraclecloud.com${oci_objectstorage_preauthrequest.tsd_backup_preauthenticated_request.access_uri}"
-    ddns = "${var.ddns_url}"
+    ddns_url = "${var.ddns_url}"
     tz="${var.timezone}"
   }
 }
@@ -37,9 +37,9 @@ resource "oci_core_instance" "tsd_instance" {
   metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
     user_data           = "${base64encode(data.template_file.tsd-init.rendered)}"
-    ddns-url            = "${var.ddns_url}"
+    ddns_url            = "${var.ddns_url}"
     timezone            = "${var.timezone}"
-    dns-name            = "${var.dns_name}"
+    # dns_name            = "${var.dns_name}"
     bucket              = "https://objectstorage.${var.region}.oraclecloud.com${oci_objectstorage_preauthrequest.tsd_backup_preauthenticated_request.access_uri}"
   }
 

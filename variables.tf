@@ -12,11 +12,6 @@ variable "source_ip" {
   description = "IP address to allow access from. Recommended to only allow your personal public IP followed by /32"
 }
 
-variable "dns_name" {
-  default = ""
-  description = "DNS name for the public IP assigned."
-}
-
 variable "timezone" {
   default = ""
   description="Example America/Chicago"
@@ -35,9 +30,16 @@ variable "bucket_name" {
   description = "Name of the Oracle Storage Bucket created previously"
 }
 
+# variable "dns_name" {
+#   default = ""
+#   description = "DNS name for the public IP assigned."
+# }
+
 variable "ddns_url" {
   default=""
-  description = "URL to update Dynamic DNS entry such as http://freedns.afraid.org/dynamic/update.php?xxxdynamicTokenxxx"
+  description = "URL to update Dynamic DNS entry such as https://www.duckdns.org/update?domains={YOURDOMAIN}&token={YOURTOKEN} or http://sync.afraid.org/u/{YOURTOKEN} replacing {YOURTOKEN} with your actual token"
+  # https://www.duckdns.org/spec.jsp
+  # https://freedns.afraid.org/dynamic/v2/?style=1
 }
 
 variable "instance_shape" {
