@@ -5,13 +5,14 @@ https://www.thespaghettidetective.com/
 
 The Spaghetti Detective is a paid service, but is also open source and able to be installed as a self-hosted docker container with instructions found here:
 https://github.com/TheSpaghettiDetective/TheSpaghettiDetective
+This does require more powerful hardware than a Raspberry Pi, so you need either a PC to leave powered on any time you are printing, or purchase separate hardware such as nVidia Jetson Nano.
 
-Oracle Cloud Instrastructure (OCI) offers "Oracle Cloud Free Tier" which includes Always Free clouse services, including ARM-based Ampere VMs equivalent to 4 CPU cores and 24 GB RAM per month, which is more than sufficient to run a TSD instance with no charge and no expiration date.
+Oracle Cloud Instrastructure (OCI) offers "Oracle Cloud Free Tier" which includes Always Free cloud services, including ARM-based Ampere VMs equivalent to 4 CPU cores and 24 GB RAM, which is more than sufficient to run a TSD instance with no charge and no expiration date.
 https://www.oracle.com/cloud/free/
 
 OCI uses "stacks" that automates the provisioning of an environment using Terraform.  Using only a single zip file, The Spaghetti Detective can be provisioned quickly with very little interaction.
 
-This project contains a zip file that can be used with Oracle Cloud to create a free VM instance that will automatically install TSD and optionally backup and restore the database to an Oracle Bucket so upgrades can become as easy as running a Destroy/Apply on the existing Stack
+This project contains a zip file that can be used with Oracle Cloud to create a free VM instance that will automatically install TSD and optionally backup and restore the database to an Oracle Bucket so upgrades can become as easy as running a Destroy then Apply on the existing Stack
 
 # Configuration
 1) Download the .zip file.
@@ -35,6 +36,8 @@ This project contains a zip file that can be used with Oracle Cloud to create a 
     * If the process encounters an error stating "Out of host capacity", your Region does not currently have available resources for Always Free instances. In the Oracle Forums regarding this error, they recommend trying again later as capacity is always being added.
 10) Open the URL to the web interface and login.
     If using a DNS name, update the entry to reflect the new IP address, or consider a Dynamic DNS service such as http://www.duckdns.org to automatically update when provisioned
+11) Follow the rest of the documentation steps from the official project to complete the server, Octoprint, and mobile app
+    > https://github.com/TheSpaghettiDetective/TheSpaghettiDetective#basic-server-configuration
 
 
 **Note**: When navigating around the Oracle interface, make sure to change the Compartment option on the left side to "tsd" by default to view the newly created objects. To view the Stacks, change the Compartment back to root
