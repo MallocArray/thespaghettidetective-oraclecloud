@@ -12,11 +12,15 @@ git clone -b release https://github.com/TheSpaghettiDetective/TheSpaghettiDetect
 # Attempt to restore a backup if present
 bucket=$(curl -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata | jq -c ".bucket" | tr --delete '"')
 if [ $bucket ]; then
-	echo "Downloadind existing database backup"
-	sudo wget ${bucket}db.sqlite3 -O /TheSpaghettiDetective/web/db.sqlite3
-	sudo wget ${bucket}docker-compose.yml -O /TheSpaghettiDetective/docker-compose.yml
+	echo "Downloading existing database backup"
+	# If using -O for the output file and the backup file doesn't exist, it will download an empty file and break docker-compose
+	# Changing directory to each folder to eliminate the -O parameter and no file is created if it cannot be found
+	cd /TheSpaghettiDetective/web
+	sudo wget ${bucket}db.sqlite3
+	cd /TheSpaghettiDetective
+	sudo wget ${bucket}docker-compose.yml
 
-	echo "Createing backup script file"
+	echo "Creating backup script file"
 	echo '#!/bin/bash' | sudo tee /TheSpaghettiDetective/tsd-backup.sh
 	echo 'bucket=$(curl -L http://169.254.169.254/opc/v1/instance/metadata | jq -c ".bucket" | tr --delete '\''"'\'' )' | sudo tee -a /TheSpaghettiDetective/tsd-backup.sh
 	# echo sudo zip -r /tmp/TheSpaghettiDetectiveBackup.zip /TheSpaghettiDetective/web | sudo tee -a /TheSpaghettiDetective/tsd-backup.sh
@@ -25,7 +29,7 @@ if [ $bucket ]; then
 	echo curl -T /TheSpaghettiDetective/docker-compose.yml \$bucket | sudo tee -a /TheSpaghettiDetective/tsd-backup.sh
 	sudo chmod u+x /TheSpaghettiDetective/tsd-backup.sh
 
-	ehco "Scheduling weekly backups of database using cron on Sundays at 1:00 am"
+	echo "Scheduling weekly backups of database using cron on Sundays at 1:00 am"
 	# https://stackoverflow.com/questions/878600/how-to-create-a-cron-job-using-bash-automatically-without-the-interactive-editor
 	crontab -l | { cat; echo "* 1 * * 0 /TheSpaghettiDetective/tsd-backup.sh"; } | crontab -
 fi
