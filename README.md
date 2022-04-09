@@ -7,7 +7,7 @@ The Spaghetti Detective is a paid service, but is also open source and able to b
 https://github.com/TheSpaghettiDetective/TheSpaghettiDetective
 This does require more powerful hardware than a Raspberry Pi, so you need either a PC to leave powered on any time you are printing, or purchase separate hardware such as nVidia Jetson Nano.
 
-Oracle Cloud Instrastructure (OCI) offers "Oracle Cloud Free Tier" which includes Always Free cloud services, including ARM-based Ampere VMs equivalent to 4 CPU cores and 24 GB RAM, which is more than sufficient to run a TSD instance with no charge and no expiration date.
+Oracle Cloud Infrastructure (OCI) offers "Oracle Cloud Free Tier" which includes Always Free cloud services, including ARM-based Ampere VMs equivalent to 4 CPU cores and 24 GB RAM, which is more than sufficient to run a TSD instance with no charge and no expiration date.
 https://www.oracle.com/cloud/free/
 
 OCI uses "stacks" that automates the provisioning of an environment using Terraform.  Using only a single zip file, The Spaghetti Detective can be provisioned quickly with very little interaction.
@@ -94,7 +94,7 @@ sudo crontab -e
 ```
 
 # Upgrading
-If you have configured SSH keys, connect to the instance and run the commands specified on the github page, using sudo in front of each 'git' and 'docker-compose' lines
+If you have configured SSH keys, connect to the instance and run the commands specified on the Github page, using sudo in front of each 'git' and 'docker-compose' lines
 https://github.com/TheSpaghettiDetective/TheSpaghettiDetective#upgrade-server
 
 If you have not setup SSH, go to the Stacks menu mentioned above, select your stack for TSD and run the `Destroy` command to remove the current instance and then `Apply` to recreate the instance with the latest version and restoring from your last backup
