@@ -1,4 +1,11 @@
-# The Spaghetti Detective on Oracle Cloud Infrastructure with Free Tier
+# Project no longer maintained.  Please see updated project
+
+## In May 2022, The Spaghetti Detective was rebranded as Obico and has necessitated a separate project
+
+<https://github.com/MallocArray/obico-oraclecloud>
+
+
+## Legacy Information
 
 The Spaghetti Detective is an amazing project using AI and Deep Learning to monitor a webcam observing your 3d printer and can pause prints if things look to be failing.
 https://www.thespaghettidetective.com/
